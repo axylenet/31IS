@@ -42,6 +42,9 @@ def check_scholarship(grades):
 subjects_and_groups_data = read_subjects_and_groups('file1.txt')
 students_data = read_students('file2.txt')
 
+# Создание файла для записи данных
+output_file = open('Ведомость.txt', 'w', encoding='utf-8')
+
 # Вывод информации о студентах и их стипендиях
 for i, student_info in enumerate(students_data, start=1):
     name, group, grades = student_info
@@ -49,5 +52,9 @@ for i, student_info in enumerate(students_data, start=1):
     if subjects:
         eligible = check_scholarship(grades)
         if eligible != "не получает стипендию":
-            print(f"{i}.{name} {group},{', '.join([f'{subject}-{grade}' for subject, grade in grades.items()])} - {eligible}")
+            output_line = f"{i}.{name} {group},{', '.join([f'{subject}-{grade}' for subject, grade in grades.items()])} - {eligible}\n"
+            print(output_line, end='')  # Вывод в консоль
+            output_file.write(output_line)  # Запись в файл
 
+# Закрытие файла
+output_file.close()
